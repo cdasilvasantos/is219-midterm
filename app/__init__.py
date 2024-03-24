@@ -73,7 +73,9 @@ class App:
 
 def start_app():
     app = App()
+    app.load_plugins()  # Call load_plugins to register plugins
     app.start()
+
 
 if __name__ == "__main__":
     start_app()

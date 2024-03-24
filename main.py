@@ -1,8 +1,7 @@
 import sys
 from decimal import Decimal, InvalidOperation
-from app import App
 from app.commands import CommandHandler
-from app.commands import CommandHandler
+from app.plugins.menu import MenuCommand
 
 
 def calculate_and_print(a, b, operation_name, command_handler):
@@ -51,18 +50,21 @@ def display_history(command_handler):
         print("No history of calculations available.")
 
 
-
 def display_plugins(command_handler):
     # Retrieve the available plugins and their commands
     plugins = command_handler.commands.keys()
     print("Available plugins:")
-    for plugin in plugins:
-        print(plugin)
+    for plugin_name in plugins:
+        print(plugin_name)
 
 def main():
     command_handler = CommandHandler()  # Create CommandHandler instance
-    command_handler.register_command('calculate_and_print', calculate_and_print)  # Register the calculate_and_print command
-    command_handler.register_command('history', display_history)  # Register the history command
+    menu_command = MenuCommand(command_handler)
+    command_handler.register_command('discord', menu_command)
+    command_handler.register_command('email', menu_command)
+    command_handler.register_command('exit', menu_command)
+    command_handler.register_command('goodbye', menu_command)
+    command_handler.register_command('greet', menu_command)
 
     if len(sys.argv) > 1 and sys.argv[1] != 'exit':
         args = sys.argv[1:]  # Exclude the script name
@@ -79,17 +81,13 @@ def main():
             display_history(command_handler)
             continue
 
-        if user_input.strip().lower() == 'plugins':
-            display_plugins()
+        if user_input.strip().lower() == 'menu':
+            # Execute the MenuCommand
+            menu_command.execute()
             continue
 
-        # Import plugin commands
-        from app.plugins.menu import MenuCommand
-
-        if user_input.strip().lower() == 'menu':
-            # Create an instance of MenuCommand and execute it
-            menu_command = MenuCommand(command_handler)
-            menu_command.execute()
+        if user_input.strip().lower() == 'plugins':
+            display_plugins(command_handler)  # Call display_plugins with command_handler argument
             continue
 
         # Handle expressions like "5+5"
