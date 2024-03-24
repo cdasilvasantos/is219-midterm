@@ -20,9 +20,9 @@ This code demonstrates effective use of object-oriented and functional programmi
 '''
 
 # Import necessary modules and classes
-from app.calculator.calculations import Calculations  # Manages history of calculations
-from app.calculator.operations import add, subtract, multiply, divide  # Arithmetic operations
-from app.calculator.calculation import Calculation 
+from calculator.calculations import Calculations  # Manages history of calculations
+from calculator.operations import add, subtract, multiply, divide  # Arithmetic operations
+from calculator.calculation import Calculation  # Represents a single calculation
 from decimal import Decimal  # For high-precision arithmetic
 from typing import Callable  # For type hinting callable objects
 

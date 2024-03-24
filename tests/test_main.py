@@ -1,6 +1,7 @@
 """
-Tests for the calculate_and_print function in main module.
+Module docstring: This module contains tests for the main module.
 """
+
 import pytest
 from main import calculate_and_print  # Ensure this import matches your project structure
 
@@ -17,17 +18,7 @@ from main import calculate_and_print  # Ensure this import matches your project 
 ])
 def test_calculate_and_print(a_string, b_string, operation_string, expected_string, capsys):
     """
-    Test calculate_and_print function.
-
-    Parameters:
-    - a_string (str): First operand as a string.
-    - b_string (str): Second operand as a string.
-    - operation_string (str): Operation to perform.
-    - expected_string (str): Expected output string.
-    - capsys: Pytest fixture to capture stdout and stderr.
-
-    Returns:
-    - None
+    Test the calculate_and_print function with various input scenarios.
     """
     calculate_and_print(a_string, b_string, operation_string)
     captured = capsys.readouterr()

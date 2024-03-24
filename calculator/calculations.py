@@ -1,7 +1,7 @@
 from decimal import Decimal
 from typing import Callable, List
 
-from app.calculator.calculation import Calculation
+from calculator.calculation import Calculation
 
 class Calculations:
     history: List[Calculation] = []
@@ -32,4 +32,3 @@ class Calculations:
     def find_by_operation(cls, operation_name: str) -> List[Calculation]:
         """Find and return a list of calculations by operation name."""
         return [calc for calc in cls.history if calc.operation.__name__ == operation_name]
-
