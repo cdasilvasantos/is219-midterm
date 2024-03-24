@@ -9,22 +9,27 @@ class OperationCommand:
         self.operation_name = operation_name
         self.a = a
         self.b = b
+        self.result = None  # Initialize result attribute
 
     def execute(self):
         operation_method = getattr(self.calculator, self.operation_name, None)
         if operation_method:
-            return operation_method(self.a, self.b)
+            self.result = operation_method(self.a, self.b)  # Store the result of the operation
         else:
             raise ValueError(f"Unknown operation: {self.operation_name}")
+
+        return self.result  # Return the result of the operation
 
 def calculate_and_print(a, b, operation_name):
     try:
         a_decimal, b_decimal = Decimal(a), Decimal(b)
-        result = OperationCommand(Calculator, operation_name, a_decimal, b_decimal).execute()
-        print(f"The result of {a} {operation_name} {b} is equal to {result}")
-
-        # Add the calculation to the history
+        command = OperationCommand(Calculator, operation_name, a_decimal, b_decimal)
+        result = command.execute()
+        
+        # Add the calculation to the history only if the operation was successful
         Calculations.add_calculation(Calculation.create(a_decimal, b_decimal, operation_name))
+
+        print(f"The result of {a} {operation_name} {b} is equal to {result}")
     except InvalidOperation:
         print(f"Invalid number input: {a} or {b} is not a valid number.")
     except ZeroDivisionError:
@@ -34,6 +39,8 @@ def calculate_and_print(a, b, operation_name):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
+
 def display_history():
     history = Calculations.get_history()
     if not history:
@@ -41,24 +48,27 @@ def display_history():
     else:
         print("Calculation History:")
         for index, calculation in enumerate(history, start=1):
-            print(f"{index}. {calculation}")
+            operation_name = getattr(calculation.operation, '__name__', 'Unknown')
+            print(f"{index}. Calculation({calculation.a}, {calculation.b}, {operation_name})")
 
 def main():
-    if len(sys.argv) == 4:
-        _, a, b, operation_name = sys.argv
-        calculate_and_print(a, b, operation_name)
-    else:
-        print("Usage: python calculator_main.py <number1> <number2> <operation>")
-        print("To view calculation history, use 'history' as the operation.")
-        user_input = input("Enter calculation or 'history': ")
+    while True:
+        user_input = input("Enter calculation, 'history' to view history, or 'exit' to quit: ")
+
+        if user_input.strip().lower() == 'exit':
+            break
+
         if user_input.strip().lower() == 'history':
             display_history()
-        else:
-            try:
-                a, b, operation_name = user_input.split()
-                calculate_and_print(a, b, operation_name)
-            except ValueError:
-                print("Invalid input. Please enter in the format 'number1 number2 operation'.")
+            continue
+
+        try:
+            a, b, operation_name = user_input.split()
+            calculate_and_print(a, b, operation_name)
+        except ValueError:
+            print("Invalid input. Please enter in the format 'number1 number2 operation'.")
+
+    print("Exiting program.")
 
 if __name__ == '__main__':
     main()
