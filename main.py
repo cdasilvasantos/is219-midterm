@@ -2,6 +2,8 @@ import sys
 from decimal import Decimal, InvalidOperation
 from app import App
 from app.commands import CommandHandler
+from app.commands import CommandHandler
+
 
 def calculate_and_print(a, b, operation_name, command_handler):
     try:
@@ -50,8 +52,12 @@ def display_history(command_handler):
 
 
 
-def display_plugins():
-    App().command_handler.execute_command('plugins')
+def display_plugins(command_handler):
+    # Retrieve the available plugins and their commands
+    plugins = command_handler.commands.keys()
+    print("Available plugins:")
+    for plugin in plugins:
+        print(plugin)
 
 def main():
     command_handler = CommandHandler()  # Create CommandHandler instance
@@ -75,6 +81,15 @@ def main():
 
         if user_input.strip().lower() == 'plugins':
             display_plugins()
+            continue
+
+        # Import plugin commands
+        from app.plugins.menu import MenuCommand
+
+        if user_input.strip().lower() == 'menu':
+            # Create an instance of MenuCommand and execute it
+            menu_command = MenuCommand(command_handler)
+            menu_command.execute()
             continue
 
         # Handle expressions like "5+5"
