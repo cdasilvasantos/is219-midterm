@@ -27,7 +27,7 @@ def calculate_and_print(a, b, operation_name):
         result = command.execute()
         
         # Add the calculation to the history only if the operation was successful
-        Calculations.add_calculation(Calculation.create(a_decimal, b_decimal, operation_name))
+        Calculations.add_calculation(Calculation.create(a_decimal, b_decimal, getattr(Calculator, operation_name)))
 
         print(f"The result of {a} {operation_name} {b} is equal to {result}")
     except InvalidOperation:
@@ -38,8 +38,6 @@ def calculate_and_print(a, b, operation_name):
         print(e)
     except Exception as e:
         print(f"An error occurred: {e}")
-
-
 
 def display_history():
     history = Calculations.get_history()
