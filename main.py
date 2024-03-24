@@ -1,4 +1,6 @@
 import sys
+import os
+import pandas as pd
 from decimal import Decimal, InvalidOperation
 from app.commands import CommandHandler
 from app.plugins.menu import MenuCommand
@@ -6,7 +8,41 @@ from app.plugins.discord import DiscordCommand
 from app.plugins.email import EmailCommand
 from app.plugins.goodbye import GoodbyeCommand
 from app.plugins.greet import GreetCommand
+from datetime import datetime 
 
+# Function to save history to a CSV file
+def save_history_to_csv(history):
+    data_folder = 'data'
+    os.makedirs(data_folder, exist_ok=True)  # Create the data folder if it doesn't exist
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    csv_filename = f'calculation_history_{timestamp}.csv'
+    csv_path = os.path.join(data_folder, csv_filename)
+    df = pd.DataFrame(history, columns=['Calculation'])
+    df.to_csv(csv_path, index=False)
+    return csv_path
+
+def load_history_from_csv():
+    csv_path = os.path.join('data', 'calculation_history.csv')
+    if os.path.exists(csv_path):
+        df = pd.read_csv(csv_path)
+        return df['Calculation'].tolist()
+    else:
+        return []
+
+# Function to clear history
+def clear_history():
+    csv_path = os.path.join('data', 'calculation_history.csv')
+    if os.path.exists(csv_path):
+        os.remove(csv_path)
+
+# Function to delete a specific calculation from history
+def delete_calculation(index):
+    csv_path = os.path.join('data', 'calculation_history.csv')
+    if os.path.exists(csv_path):
+        df = pd.read_csv(csv_path)
+        if 0 <= index < len(df):
+            df.drop(index=index, inplace=True)
+            df.to_csv(csv_path, index=False)
 
 def calculate_and_print(a, b, operation_name, command_handler):
     try:
@@ -50,6 +86,9 @@ def display_history(command_handler):
         print("History of calculations:")
         for index, calculation in enumerate(history, start=1):
             print(f"{index}. {calculation}")
+        
+        # Save history to CSV
+        save_history_to_csv(history)
     else:
         print("No history of calculations available.")
 
@@ -114,6 +153,20 @@ def main():
                 calculate_and_print(a, b, 'add', command_handler)
                 continue
 
+                # Check if the input starts with 'delete'
+        if user_input.strip().lower().startswith('delete '):
+            try:
+                # Extract the index from the user input
+                index = int(user_input.strip().lower().split(' ')[1])
+                # Delete the calculation at the specified index
+                delete_calculation(index - 1)
+                print("Calculation deleted successfully.")
+                continue  # Skip the rest of the loop iteration
+            except IndexError:
+                print("Invalid index.")
+            except ValueError:
+                print("Invalid index format. Please enter a valid integer.")
+
         try:
             a, b, operation_name = user_input.split()
             calculate_and_print(a, b, operation_name, command_handler)  # Pass command_handler
@@ -121,6 +174,7 @@ def main():
             print("Invalid input. Please enter in the format 'number1 number2 operation'.")
 
     print("Exiting program.")
+
 
 
 
