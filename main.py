@@ -1,6 +1,7 @@
 import sys
 from decimal import Decimal, InvalidOperation
-from calculator import Calculator, Calculations  # Assuming Calculator and Calculations are defined as shown previously
+from calculator import Calculator, Calculations
+from calculator.calculation import Calculation
 
 class OperationCommand:
     def __init__(self, calculator, operation_name, a, b):
@@ -10,7 +11,6 @@ class OperationCommand:
         self.b = b
 
     def execute(self):
-        # Retrieve the operation method from the Calculator class using getattr
         operation_method = getattr(self.calculator, self.operation_name, None)
         if operation_method:
             return operation_method(self.a, self.b)
@@ -19,12 +19,12 @@ class OperationCommand:
 
 def calculate_and_print(a, b, operation_name):
     try:
-        a_decimal, b_decimal = map(Decimal, [a, b])
+        a_decimal, b_decimal = Decimal(a), Decimal(b)
         result = OperationCommand(Calculator, operation_name, a_decimal, b_decimal).execute()
         print(f"The result of {a} {operation_name} {b} is equal to {result}")
-        
+
         # Add the calculation to the history
-        Calculations.add_calculation(Calculation.create(a_decimal, b_decimal, operation_name, result))
+        Calculations.add_calculation(Calculation.create(a_decimal, b_decimal, operation_name))
     except InvalidOperation:
         print(f"Invalid number input: {a} or {b} is not a valid number.")
     except ZeroDivisionError:
@@ -33,7 +33,6 @@ def calculate_and_print(a, b, operation_name):
         print(e)
     except Exception as e:
         print(f"An error occurred: {e}")
-
 
 def display_history():
     history = Calculations.get_history()
