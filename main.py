@@ -8,18 +8,14 @@ from app.plugins.discord import DiscordCommand
 from app.plugins.email import EmailCommand
 from app.plugins.goodbye import GoodbyeCommand
 from app.plugins.greet import GreetCommand
-from datetime import datetime 
 
 # Function to save history to a CSV file
 def save_history_to_csv(history):
     data_folder = 'data'
     os.makedirs(data_folder, exist_ok=True)  # Create the data folder if it doesn't exist
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    csv_filename = f'calculation_history_{timestamp}.csv'
-    csv_path = os.path.join(data_folder, csv_filename)
+    csv_path = os.path.join(data_folder, 'calculation_history.csv')
     df = pd.DataFrame(history, columns=['Calculation'])
     df.to_csv(csv_path, index=False)
-    return csv_path
 
 def load_history_from_csv():
     csv_path = os.path.join('data', 'calculation_history.csv')
@@ -153,7 +149,19 @@ def main():
                 calculate_and_print(a, b, 'add', command_handler)
                 continue
 
-                # Check if the input starts with 'delete'
+        # Check if the input is 'save'
+        if user_input.strip().lower() == 'save':
+            save_history_to_csv(history)
+            print("Calculation history saved to CSV.")
+            continue
+        
+        # Check if the input is 'clear'
+        if user_input.strip().lower() == 'clear':
+            history = clear_history()
+            print("Calculation history cleared.")
+            continue
+
+        # Check if the input starts with 'delete'
         if user_input.strip().lower().startswith('delete '):
             try:
                 # Extract the index from the user input
