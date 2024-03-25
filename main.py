@@ -62,7 +62,7 @@ def delete_calculation(index):
     except Exception as e:
         logging.error(f"Error deleting calculation: {e}")
 
-def calculate_and_print(a, b, operation_name, command_handler):
+def calculate_and_return(a, b, operation_name, command_handler):
     try:
         a_decimal, b_decimal = Decimal(a), Decimal(b)
         if operation_name == 'add':
@@ -84,11 +84,10 @@ def calculate_and_print(a, b, operation_name, command_handler):
         # Add the calculation to the history
         command_handler.add_to_history(calculation_str)
 
-        # Print the result
-        print(f"The result of {calculation_str} is {result}")
-
         # Save the history to CSV after each calculation
         save_history_to_csv(command_handler.get_history())
+
+        return result
 
     except InvalidOperation:
         logging.error(f"Invalid number input: {a} or {b} is not a valid number.")
@@ -143,7 +142,8 @@ def main():
 
         if len(sys.argv) > 1 and sys.argv[1] != 'exit':
             args = sys.argv[1:]  # Exclude the script name
-            calculate_and_print(*args, command_handler)  # Call calculate_and_print directly with provided arguments and command_handler
+            result = calculate_and_return(*args, command_handler)  # Call calculate_and_print directly with provided arguments and command_handler
+            print(f"The result of the calculation is {result}")
             return
 
         while True:
@@ -171,11 +171,12 @@ def main():
                 continue
 
             # Handle expressions like "5+5"
-            if '+' in user_input:
-                parts = user_input.split('+')
-                if len(parts) == 2:
-                    a, b = parts
-                    calculate_and_print(a, b, 'add', command_handler)
+            if ' ' in user_input:
+                parts = user_input.split()
+                if len(parts) == 3:
+                    a, b, operation_name = parts
+                    result = calculate_and_return(a, b, operation_name, command_handler)
+                    print(f"The result of the calculation is {result}")
                     continue
 
             # Check if the input is 'save'
@@ -192,7 +193,7 @@ def main():
             if user_input.strip().lower().startswith('delete '):
                 try:
                     # Extract the index from the user input
-                    index = int(user_input.strip().lower().split(' ')[1])
+                    index = int(user_input.strip().lower().split(' ')[0])
                     # Delete the calculation at the specified index
                     delete_calculation(index - 1)
                     continue  # Skip the rest of the loop iteration

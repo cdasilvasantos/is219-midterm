@@ -3,3 +3,35 @@
 2024-03-24 20:30:40,925 - ERROR - Invalid input. Please enter a valid command.
 2024-03-24 20:31:37,576 - INFO - Exiting program.
 2024-03-24 20:31:42,587 - ERROR - Invalid input. Please enter a valid command.
+2024-03-24 20:32:07,304 - INFO - I will send something on discord
+2024-03-24 20:33:19,603 - INFO - Exiting program.
+2024-03-24 20:33:23,599 - ERROR - Invalid input. Please enter a valid command.
+2024-03-24 20:33:38,165 - INFO - I will send something on discord
+2024-03-24 20:33:43,344 - ERROR - Invalid input. Please enter a valid command.
+2024-03-24 20:34:19,071 - INFO - Exiting program.
+2024-03-24 20:34:25,088 - INFO - Calculation history saved to CSV.
+2024-03-24 20:34:33,018 - INFO - Calculation history saved to CSV.
+2024-03-24 20:34:44,577 - INFO - Calculation history saved to CSV.
+2024-03-24 20:34:49,604 - INFO - Calculation deleted successfully.
+2024-03-24 20:34:56,477 - INFO - Calculation deleted successfully.
+2024-03-24 20:34:58,698 - INFO - Calculation history cleared.
+2024-03-24 20:35:03,441 - INFO - Calculation history saved to CSV.
+2024-03-24 20:35:07,820 - INFO - Calculation history saved to CSV.
+2024-03-24 20:35:15,185 - INFO - Calculation deleted successfully.
+2024-03-24 20:35:18,203 - INFO - Calculation deleted successfully.
+2024-03-24 20:35:21,612 - INFO - Calculation deleted successfully.
+2024-03-24 20:35:53,757 - INFO - Calculation history saved to CSV.
+2024-03-24 20:35:58,822 - ERROR - Invalid number input: delete or 1 is not a valid number.
+2024-03-24 20:36:02,902 - INFO - Calculation deleted successfully.
+2024-03-24 20:36:04,876 - INFO - Calculation deleted successfully.
+2024-03-24 20:36:06,329 - INFO - Calculation deleted successfully.
+2024-03-24 20:36:09,195 - INFO - Calculation deleted successfully.
+2024-03-24 20:36:11,721 - INFO - Calculation deleted successfully.
+2024-03-24 20:36:13,608 - INFO - Calculation deleted successfully.
+2024-03-24 20:36:27,955 - WARNING - 'save' command not supported in this context.
+2024-03-24 20:36:42,579 - INFO - Calculation history cleared.
+2024-03-24 20:36:46,280 - INFO - Exiting program.
+2024-03-24 20:36:51,843 - ERROR - Invalid input. Please enter a valid command.
+2024-03-24 20:36:54,983 - INFO - I will send something on discord
+2024-03-24 20:36:58,628 - INFO - I will email you
+2024-03-24 20:37:00,771 - INFO - Exiting program.
