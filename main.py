@@ -14,7 +14,7 @@ def save_history_to_csv(history):
     data_folder = 'data'
     os.makedirs(data_folder, exist_ok=True)  # Create the data folder if it doesn't exist
     csv_path = os.path.join(data_folder, 'calculation_history.csv')
-    df = pd.DataFrame(history, columns=['Calculation'])
+    df = pd.DataFrame({'Calculation': history})
     df.to_csv(csv_path, index=False)
 
 def load_history_from_csv():
@@ -65,6 +65,9 @@ def calculate_and_print(a, b, operation_name, command_handler):
         # Print the result
         print(f"The result of {calculation_str}")
 
+        #save the history to csv after each calculation
+        save_history_to_csv(command_handler.get_history())
+
     except InvalidOperation:
         print(f"Invalid number input: {a} or {b} is not a valid number.")
     except ZeroDivisionError as e:
@@ -82,9 +85,6 @@ def display_history(command_handler):
         print("History of calculations:")
         for index, calculation in enumerate(history, start=1):
             print(f"{index}. {calculation}")
-        
-        # Save history to CSV
-        save_history_to_csv(history)
     else:
         print("No history of calculations available.")
 
