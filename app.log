@@ -317,3 +317,31 @@
 2024-03-26 11:52:24,277 - INFO - Deleted calculation saved to CSV.
 2024-03-26 11:52:24,279 - INFO - Calculation history saved to CSV.
 2024-03-26 11:52:24,280 - INFO - Calculation marked as deleted.
+2024-03-26 11:53:30,510 - INFO - Exiting program.
+2024-03-26 13:16:39,724 - ERROR - An unexpected error occurred: MenuCommand() takes no arguments
+2024-03-26 13:16:43,903 - ERROR - An unexpected error occurred: MenuCommand() takes no arguments
+2024-03-26 13:16:59,708 - ERROR - An unexpected error occurred: MenuCommand() takes no arguments
+2024-03-26 13:17:49,894 - ERROR - An unexpected error occurred: MenuCommand() takes no arguments
+2024-03-26 13:18:13,344 - ERROR - An unexpected error occurred: MenuCommand() takes no arguments
+2024-03-26 13:18:23,009 - ERROR - An unexpected error occurred: MenuCommand() takes no arguments
+2024-03-26 13:18:37,361 - ERROR - An unexpected error occurred: __init__() missing 1 required positional argument: 'command_handler'
+2024-03-26 13:19:18,385 - ERROR - Invalid input. Please enter a valid command.
+2024-03-26 13:19:21,644 - INFO - Calculation history saved to CSV.
+2024-03-26 13:19:26,925 - INFO - Calculation history cleared.
+2024-03-26 13:19:28,267 - INFO - Exiting program.
+2024-03-26 13:24:58,437 - ERROR - An unexpected error occurred: __init__() missing 1 required positional argument: 'command_handler'
+2024-03-26 13:26:16,723 - INFO - Exiting program.
+2024-03-26 13:27:23,832 - ERROR - An error occurred: 'CommandHandler' object has no attribute 'add_to_history'
+2024-03-26 13:27:32,060 - INFO - Exiting program.
+2024-03-26 13:27:36,315 - INFO - Calculation history saved to CSV.
+2024-03-26 13:28:58,230 - INFO - I will send something on discord
+2024-03-26 13:29:21,770 - INFO - I will email you
+2024-03-26 13:29:31,468 - INFO - Goodbye
+2024-03-26 13:29:44,523 - INFO - Exiting program.
+2024-03-26 13:55:02,413 - INFO - Calculation history saved to CSV.
+2024-03-26 13:55:05,440 - INFO - I will send something on discord
+2024-03-26 13:55:08,737 - INFO - Deleted calculation saved to CSV.
+2024-03-26 13:55:08,738 - INFO - Calculation history saved to CSV.
+2024-03-26 13:55:08,738 - INFO - Calculation marked as deleted.
+2024-03-26 13:55:11,278 - INFO - Calculation history cleared.
+2024-03-26 13:55:12,756 - INFO - Exiting program.
