@@ -62,12 +62,17 @@ def save_deleted_to_csv(deleted_calculation):
 # Function to clear history
 def clear_history():
     try:
-        csv_path = os.path.join('data', 'calculation_history.csv')
+        csv_path = os.path.join('data', 'calculation_history.csv',)
+        deleted_csv_path = os.path.join('data', 'deleted_calculations.csv')
         if os.path.exists(csv_path):
             os.remove(csv_path)
             logging.info("Calculation history cleared.")
+        if os.path.exists(deleted_csv_path):
+            os.remove(deleted_csv_path)
+            logging.info("Deleted calculation history cleared.")
     except Exception as e:
         logging.error(f"Error clearing calculation history: {e}")
+
 
 def delete_calculation(index, command_handler):
     try:
