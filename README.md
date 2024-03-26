@@ -76,7 +76,7 @@ The project integrates concepts and techniques covered in homework assignments, 
     I will send something on discord  
     ```
 
-### Architectural Decisions
+### Architectural Decisions and Design Patterns
 1. **Command Handler Pattern:**
    - The project utilizes the Command Handler pattern to decouple the execution of commands from their implementation. This allows for easy extension and modification of commands without impacting the core logic.
 2. **Plugin Architecture:**

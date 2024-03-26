@@ -74,7 +74,7 @@ def clear_history():
     except Exception as e:
         logging.error(f"Error clearing calculation history: {e}")
 
-
+# Function to delete calculations
 def delete_calculation(index, command_handler):
     try:
         history = command_handler.get_history()
@@ -88,6 +88,7 @@ def delete_calculation(index, command_handler):
         logging.error(f"Error deleting calculation: {e}")
     return False
 
+# Function to calculate and return a result
 def calculate_and_return(a, b, operation_name, command_handler):
     try:
         a_decimal, b_decimal = Decimal(a), Decimal(b)
@@ -125,7 +126,7 @@ def calculate_and_return(a, b, operation_name, command_handler):
     except Exception as e:
         logging.error(f"An error occurred: {e}")
 
-
+# Function to show history of calculations
 def display_history(command_handler):
     try:
         # Retrieve the history of calculations
@@ -134,7 +135,7 @@ def display_history(command_handler):
         if history:
             print("History of calculations:")
             for index, calculation in enumerate(history, start=1):
-                # Check if the calculation does not end with "DELETED"
+                # Check if the calculation does not end with "DELETED", deleted ones get stored in separate files
                 if not calculation.endswith('DELETED'):
                     print(f"{index}. {calculation}")
         else:
@@ -142,7 +143,7 @@ def display_history(command_handler):
     except Exception as e:
         logging.error(f"Error displaying history: {e}")
 
-
+# Function to display available plugins after inputting menu
 def display_plugins(command_handler):
     try:
         # Retrieve the available plugins and their commands
