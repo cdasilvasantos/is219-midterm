@@ -13,7 +13,8 @@ import logging.config
 
 # Configure logging
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', filename='app.log')
+log_file_path = os.getenv('LOG_FILE_PATH', 'app.log')  # Use environment variable or default to 'app.log'
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', filename=log_file_path)
 
 # Function to save history to a CSV file
 def save_history_to_csv(history):

@@ -1,4 +1,4 @@
-## IS 219 Midterm
+## IS 219 Midterm Documentation
 
 ### Description
 The Advanced Python Calculator Application is a comprehensive project developed as part of the IS 219 class's midterm assessment. The primary goal of this project is to demonstrate proficiency in professional software development practices by integrating various advanced concepts and techniques learned throughout the course.
@@ -60,7 +60,7 @@ The project integrates concepts and techniques covered in homework assignments, 
    History of calculations: 
    1. 10 subtract 4 = 6
    ```
-4. **Plugin Implemenation:**
+4. **Plugin Implementation:**
     - Input `menu` to view a list of available plugins.
     ```bash
     Enter a calculation, 'menu' to view available plugins, 'history' to view calculation history, or 'exit' to quit: menu
@@ -86,23 +86,42 @@ The project integrates concepts and techniques covered in homework assignments, 
 4. **Data Persistence:**
    - Calculation history is stored in CSV files, enabling persistent storage of calculations across application sessions. Deleted calculations are marked but retained for future reference. You will be able to find these files in the [data](data) folder once you input a calculation.
 
+#### Usage of Environment Variables
+Environment variables are utilized in the project for dynamic configuration, allowing customization and flexibility without hardcoding values directly into the codebase. The primary use of environment variables is for managing configuration parameters, such as file paths or API keys, that may vary across different environments (e.g., development, staging, production).
+
+
+### Look Before You Leap (LBYL)
+LBYL is a defensive programming approach where you check for conditions before executing an operation to avoid potential errors or exceptions. This approach typically involves using conditionals or checks to ensure that the operation can be performed safely.
+
+#### Example:
+```python
+if operation_name in ['add', 'subtract', 'multiply', 'divide']:
+    # Perform the calculation
+    result = calculate_and_return(a, b, operation_name, command_handler)
+```
+In this snippet, you check if the `operation_name` is one of the supported mathematical operations before proceeding with the calculation. This ensures that the operation is valid and prevents potential errors caused by unsupported operations.
+
+### Easier to Ask for Forgiveness than Permission (EAFP)
+EAFP is a coding style where you attempt an operation and handle any resulting exceptions rather than checking beforehand whether the operation will succeed. This approach is based on the principle that it's easier to ask for forgiveness (handle exceptions) than to check for permission (preemptively validate conditions).
+
+#### Example:
+```python
+try:
+    a_decimal, b_decimal = Decimal(a), Decimal(b)
+    # Attempt the mathematical operation
+    result = a_decimal / b_decimal
+except ZeroDivisionError as e:
+    logging.error(f"Error: {e}")
+```
+In this example, you attempt the division operation without checking if `b_decimal` is zero beforehand. If `b_decimal` is zero, it will raise a `ZeroDivisionError`, which is caught and handled within the `except` block. This approach simplifies the code and eliminates the need for explicit conditionals to check for potential errors before executing the operation.
+
 ### Implementation Details
 1. **CommandHandler Class:**
    - Responsible for registering and executing commands.
 2. **Plugin Classes:**
    - Each plugin class implements a specific command (e.g., DiscordCommand, EmailCommand) and encapsulates its behavior.
 3. **Logging Configuration:**
-   - Logging is configured with a basic configuration, including the logging level, format, and file name.
-4. **CSV File Operations:**
-   - Functions for saving and loading calculation history to/from CSV files are implemented to ensure data persistence and integrity.
-
-### Impact of Design Patterns
-- **Command Handler Pattern:**
-  - Enables dynamic invocation of commands, facilitating extensibility and maintainability.
-- **Plugin Architecture:**
-  - Promotes modularity and scalability by encapsulating command functionality into self-contained plugins.
-- **Logging Strategy:**
-  - Facilitates effective debugging, monitoring, and error tracking, enhancing the overall reliability and maintainability of the application.
+   - Logging is configured with a basic configuration, including the logging level, format, and file
 
 ### Conclusion
 The project demonstrates effective utilization of design patterns and architectural decisions to create a flexible, modular, and robust command-line calculator application. By implementing the Command Handler pattern, Plugin Architecture, and a robust logging strategy, the application achieves a high level of extensibility, maintainability, and reliability. Additionally, the use of CSV files for data persistence ensures that calculation history is preserved across sessions, further enhancing user experience and data integrity. For detailed implementation and code analysis, please refer to the source code and documentation within the repository.
