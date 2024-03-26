@@ -21,23 +21,43 @@ def save_history_to_csv(history):
         data_folder = 'data'
         os.makedirs(data_folder, exist_ok=True)  # Create the data folder if it doesn't exist
         csv_path = os.path.join(data_folder, 'calculation_history.csv')
-        df = pd.DataFrame({'Calculation': history})
+        
+        # Filter out "DELETED" calculations before saving to CSV
+        filtered_history = [calculation for calculation in history if not calculation.endswith('DELETED')]
+        
+        df = pd.DataFrame({'Calculations': filtered_history})
         df.to_csv(csv_path, index=False)
         logging.info("Calculation history saved to CSV.")
     except Exception as e:
         logging.error(f"Error saving calculation history to CSV: {e}")
+
 
 def load_history_from_csv():
     try:
         csv_path = os.path.join('data', 'calculation_history.csv')
         if os.path.exists(csv_path):
             df = pd.read_csv(csv_path)
-            return df['Calculation'].tolist()
+            # Filter out "DELETED" calculations before returning the history
+            history = df[df['Calculation'] != 'DELETED']['Calculation'].tolist()
+            return history
         else:
             return []
     except Exception as e:
         logging.error(f"Error loading calculation history from CSV: {e}")
         return []
+
+# Function to save deleted calculations to a CSV file
+def save_deleted_to_csv(deleted_calculation):
+    try:
+        data_folder = 'data'
+        os.makedirs(data_folder, exist_ok=True)  # Create the data folder if it doesn't exist
+        csv_path = os.path.join(data_folder, 'deleted_calculations.csv')
+
+        df = pd.DataFrame({'Deleted Calculations': [deleted_calculation]})
+        df.to_csv(csv_path, mode='a', index=False, header=not os.path.exists(csv_path))
+        logging.info("Deleted calculation saved to CSV.")
+    except Exception as e:
+        logging.error(f"Error saving deleted calculation to CSV: {e}")
 
 # Function to clear history
 def clear_history():
@@ -49,18 +69,18 @@ def clear_history():
     except Exception as e:
         logging.error(f"Error clearing calculation history: {e}")
 
-# Function to delete a specific calculation from history
-def delete_calculation(index):
+def delete_calculation(index, command_handler):
     try:
-        csv_path = os.path.join('data', 'calculation_history.csv')
-        if os.path.exists(csv_path):
-            df = pd.read_csv(csv_path)
-            if 0 <= index < len(df):
-                df.drop(index=index, inplace=True)
-                df.to_csv(csv_path, index=False)
-                logging.info("Calculation deleted successfully.")
+        history = command_handler.get_history()
+        if 0 <= index < len(history):
+            deleted_calculation = history.pop(index)
+            save_deleted_to_csv(deleted_calculation)
+            save_history_to_csv(history)
+            logging.info("Calculation marked as deleted.")
+            return True
     except Exception as e:
         logging.error(f"Error deleting calculation: {e}")
+    return False
 
 def calculate_and_return(a, b, operation_name, command_handler):
     try:
@@ -81,8 +101,9 @@ def calculate_and_return(a, b, operation_name, command_handler):
         # Create a calculation string
         calculation_str = f"{a} {operation_name} {b} = {result}"
 
-        # Add the calculation to the history
-        command_handler.add_to_history(calculation_str)
+        # Add the calculation to the history if it's not marked as deleted
+        if not calculation_str.endswith('DELETED'):
+            command_handler.add_to_history(calculation_str)
 
         # Save the history to CSV after each calculation
         save_history_to_csv(command_handler.get_history())
@@ -107,11 +128,14 @@ def display_history(command_handler):
         if history:
             print("History of calculations:")
             for index, calculation in enumerate(history, start=1):
-                print(f"{index}. {calculation}")
+                # Check if the calculation does not end with "DELETED"
+                if not calculation.endswith('DELETED'):
+                    print(f"{index}. {calculation}")
         else:
             print("No history of calculations available.")
     except Exception as e:
         logging.error(f"Error displaying history: {e}")
+
 
 def display_plugins(command_handler):
     try:
@@ -175,9 +199,14 @@ def main():
                 parts = user_input.split()
                 if len(parts) == 3:
                     a, b, operation_name = parts
-                    result = calculate_and_return(a, b, operation_name, command_handler)
-                    print(f"The result of the calculation is {result}")
-                    continue
+                    if operation_name in ['add', 'subtract', 'multiply', 'divide']:
+                        result = calculate_and_return(a, b, operation_name, command_handler)
+                        if result is not None:
+                            print(f"The result of the calculation is {result}")
+                        continue
+                    else:
+                        print("Invalid input: please enter a valid operation (add, subtract, multiply, divide)")
+                        continue
 
             # Check if the input is 'save'
             if user_input.strip().lower() == 'save':
@@ -193,14 +222,18 @@ def main():
             if user_input.strip().lower().startswith('delete '):
                 try:
                     # Extract the index from the user input
-                    index = int(user_input.strip().lower().split(' ')[0])
+                    index = int(user_input.strip().lower().split(' ')[1])
                     # Delete the calculation at the specified index
-                    delete_calculation(index - 1)
+                    deleted = delete_calculation(index - 1, command_handler)
+                    if deleted:
+                        print(f"Deleted calculation at index {index}")
+                        display_history(command_handler)  # Reload history after successful deletion
                     continue  # Skip the rest of the loop iteration
                 except IndexError:
                     logging.error("Invalid index.")
                 except ValueError:
                     logging.error("Invalid index format. Please enter a valid integer.")
+
 
             logging.error("Invalid input. Please enter a valid command.")
 
@@ -208,7 +241,6 @@ def main():
 
     except Exception as e:
         logging.error(f"An unexpected error occurred: {e}")
-
 
 if __name__ == '__main__':
     main()
