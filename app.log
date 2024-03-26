@@ -379,3 +379,13 @@
 2024-03-26 14:06:55,730 - INFO - Goodbye
 2024-03-26 14:06:57,070 - INFO - Hello, World!
 2024-03-26 14:07:00,428 - INFO - Exiting program.
+2024-03-26 15:19:23,925 - INFO - Calculation history saved to CSV.
+2024-03-26 15:19:28,601 - INFO - Calculation history saved to CSV.
+2024-03-26 15:19:32,721 - INFO - Deleted calculation saved to CSV.
+2024-03-26 15:19:32,723 - INFO - Calculation history saved to CSV.
+2024-03-26 15:19:32,723 - INFO - Calculation marked as deleted.
+2024-03-26 15:20:12,044 - INFO - Calculation history cleared.
+2024-03-26 15:20:12,045 - INFO - Deleted calculation history cleared.
+2024-03-26 15:20:16,910 - INFO - Exiting program.
+2024-03-26 15:23:06,945 - INFO - I will send something on discord
+2024-03-26 15:25:12,653 - INFO - Exiting program.
