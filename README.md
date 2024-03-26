@@ -87,7 +87,22 @@ The project integrates concepts and techniques covered in homework assignments, 
    - Calculation history is stored in CSV files, enabling persistent storage of calculations across application sessions. Deleted calculations are marked but retained for future reference. You will be able to find these files in the [data](data) folder once you input a calculation.
 
 #### Usage of Environment Variables
-Environment variables are utilized in the project for dynamic configuration, allowing customization and flexibility without hardcoding values directly into the codebase. The primary use of environment variables is for managing configuration parameters, such as file paths or API keys, that may vary across different environments (e.g., development, staging, production).
+Environment variables play a crucial role in the project by enabling dynamic configuration, providing a means for customization and flexibility without the need for hardcoding values directly into the codebase. In the implemented solution, environment variables are primarily utilized for managing configuration parameters that may vary across different environments, such as file paths or API keys.
+
+In particular, environment variables are employed for configuring the log file path dynamically. This approach ensures that the log file location can be easily customized based on the environment without requiring modifications to the code. By using environment variables, the project achieves adaptability and ease of configuration, allowing seamless deployment across various environments, including development, staging, and production.
+
+#### Example:
+```python
+import logging
+import logging.config
+import os
+
+# Configure logging
+logger = logging.getLogger(__name__)
+log_file_path = os.getenv('LOG_FILE_PATH', 'app.log')  # Use environment variable or default to 'app.log'
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s', filename=log_file_path)
+
+```
 
 
 ### Look Before You Leap (LBYL)
