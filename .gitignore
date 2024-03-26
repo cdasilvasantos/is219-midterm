@@ -5,6 +5,6 @@
 *__pycache__
 venv
 .env
-logs
-app.log 
-log
+logs/
+app.log
+log/
